@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+
+{% block title %}
+  {{ news.title }}
+{% endblock title %}
+
+{% load static %}
+{% load filters %}
+
+{% block content %}
+    <div class="page-header-overlay">  
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <header class="entry-header text-white">
+                        <h1 class="entry-title text-center">{{ news.title }}</h1>
+                        <div class="entry-meta flex justify-content-center align-items-center">
+                            <div class="post-author text-center"><a href="#" class="text-white">Автор: {{ news.author.name}} </a></div>
+                        </div><!-- .entry-meta -->
+                    </header><!-- .entry-header -->
+                </div><!-- .col -->
+            </div><!-- .row -->
+        </div><!-- .container -->
+    </div><!-- .page-header-overlay -->
+</div><!-- .hero-content -->
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul class="flex flex-wrap align-items-center p-0 m-0">
+                <li><a href="{% url 'main' %}"><i class="fa fa-home"></i> Главная</a></li>
+                <li><a href="{% url 'news' %}">Новости</a></li>
+                <li>{{ news.title }}</li>
+            </ul>
+        </div><!-- .breadcrumbs -->
+        <div class="row">
+            <div class="col-12 offset-lg-1 col-lg-10">
+                <figure class="blog-post-thumbnail position-relative m-0">
+                    <a href="{{ news.first_picture.url }}"><img src="{{ news.first_picture.url }}" class="w-100" alt=""></a>
+                </figure><!-- .blog-post-thumbnail -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+
+        <div class="row">
+            <div class="col-12 offset-lg-1 col-lg-1">
+                <div class="post-share">
+            
+                    <ul class="flex flex-wrap align-items-center p-0 m-0">
+                        <li><a href="https://www.facebook.com/sharer.php?u={{ request.get_host }}{{ request.path }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://vkontakte.ru/share.php?url={{ request.get_host }}{{ request.path }}"  target="_blank"><i class="fa fa-vk"></i></a></li>
+                        <li><a href="whatsapp://send?text=http://{{ request.get_host }}{{ request.path }}" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                        <li><a href="https://vkontakte.ru/share.php?url={{ request.get_host }}{{ request.path }}" target="_blank"><i class="fa fa-telegram"></i></a></li>
+                    </ul>
+                </div><!-- .post-share -->
+            </div><!-- .col -->
+
+            <div class="col-12 col-lg-8">
+                <div class="single-post-wrap">
+                    <h4 class="text-center">{{ news.released_date|date }}</h4>
+                    <p>{{ news.first_information|marksafe  }}</p>
+                    {% if news.second_picture %}
+                      <p><img src="{{ news.second_picture.url }}" alt=""></p>
+                    {% endif %}
+                    {% if news.second_information %}
+                      <p>{{ news.second_information|marksafe }}</p>
+                    {% endif %}
+                    {% if news.third_picture %}
+                      <p><img src="{{ news.third_picture.url }}" alt=""></p>
+                    {% endif %}
+                    {% if news.third_information %}
+                      <p>{{ news.third_information|marksafe  }}</p>
+                    {% endif %}
+
+                </div><!-- .single-post-wrap -->
+
+
+                <div class="related-blog-posts">
+                    <header class="entry-heading flex flex-wrap justify-content-between align-items-center">
+                        <h2 class="entry-title">Последние новости</h2>
+
+                        <a href="{% url 'news' %}">Смотреть все новости</a>
+                    </header><!-- .entry-heading -->
+
+                    <div class="row mx-m-25">
+                        {% for child_news in two_last_news %}
+                        <div class="col-12 col-lg-6 px-25">
+                            <div class="blog-post-content">
+                                <figure class="blog-post-thumbnail position-relative m-0">
+                                    <a href="{% url 'open_news' news_id=child_news.id %}"><img src="{{ child_news.first_picture.url }}" alt=""></a>
+
+                                    <div class="posted-date position-absolute">
+                                        <div class="month">{{ child_news.released_date|date }}</div>
+                                    </div>
+                                </figure><!-- .blog-post-thumbnail -->
+
+                                <div class="blog-post-content-wrap">
+                                    <header class="entry-header">
+                                        <h2 class="entry-title"><a href="{% url 'open_news' news_id=child_news.id %}">{{ child_news.title }}</a></h2>
+
+                                        <div class="entry-meta flex flex-wrap align-items-center">
+                                            <div class="post-author"><a href="#">Автор: {{ child_news.author.name}}</a></div>
+                                        </div><!-- .entry-meta -->
+                                    </header><!-- .entry-header -->
+                                </div><!-- .blog-post-content-wrap -->
+                            </div><!-- .blog-post-content -->
+                        </div><!-- .col -->
+                        {% endfor %}
+
+                    </div><!-- .row -->
+                </div><!-- .related-course -->      
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+
+{% endblock content %}

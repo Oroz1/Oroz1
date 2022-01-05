@@ -1,0 +1,10 @@
+{
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "files.associations": {
+        "**/*.html": "html",
+        "**/templates/**/*.html": "html",
+        "**/templates/**/*": "django-txt",
+        "**/requirements{/**,*}.{txt,in}": "pip-requirements",
+    },
+    "emmet.includeLanguages": {"django-html": "html"},
+}

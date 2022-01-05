@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+{% block title %}
+{{ request.user.username }}
+{% endblock title %}
+{% load filters %}
+{% block content %}
+<div class="page-header-overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <header class="entry-header">
+                    <h1 class="text-white text-center">{{ request.user.name }}</h1>
+                    <h5 class="text-white text-center">{{ request.user.username }}</h5>  
+                </header><!-- .entry-header -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .page-header-overlay -->
+</div><!-- .page-header -->
+<div class="container">
+    <div class="breadcrumbs">
+        <ul class="flex flex-wrap align-items-center p-0 m-0">
+            <li><a href="{% url 'main' %}"><i class="fa fa-home"></i> Главная</a></li>
+            <li>{{ request.user.username }}</li>
+        </ul>
+    </div><!-- .breadcrumbs -->
+</div>
+<div class="container">
+    <p><h4>Фамилия и имя: {{ request.user.name }}</h4></p>
+    <p><h4>Номер телефона: {{ request.user.phone_number }}</h4></p>
+    <p><h4>Статус: {{ request.user.status.title }}</h4></p>
+    {% if request.user.status.id == 1 or request.user.status.id == 3 %}
+        {% if person.group is not None %}
+          <p><h4>
+            Руководимый класс:
+            {% for group in person.group.all %}
+                {{ group.title }}
+            {% empty %}
+                не имеется
+            {% endfor %}
+        </h4></p>
+        {% endif %}
+        <p><h4>Предметы:
+            {% for subject in person.subject.all %}
+              {{ subject.title }}
+            {% endfor %}</h4></p>
+     {% elif request.user.status.id == 2 %}
+     <p><h4>Класс: {{ person.group.title }}</h4></p>       
+    {% endif %}
+    <p><h4></h4></p>
+</div>
+{% endblock content %}

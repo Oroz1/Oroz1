@@ -1,0 +1,150 @@
+{% extends "index.html" %}
+{% block title %}
+Ученики и учитиля
+{% endblock title %}
+{% load static %}
+{% load filters %}
+{% block content %}
+<div class="page-header-overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <header class="entry-header">
+                    <h1 class="text-white text-center">Ученики и учитиля</h1>
+                </header><!-- .entry-header -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .page-header-overlay -->
+</div><!-- .page-header -->
+<div class="container">
+    <div class="breadcrumbs">
+        <ul class="flex flex-wrap align-items-center p-0 m-0">
+            <li><a href="{% url 'main' %}"><i class="fa fa-home"></i> Главная</a></li>
+            <li>Ученики и учитиля</li>
+        </ul>
+    </div><!-- .breadcrumbs -->
+</div>
+<div class="container">
+    <div class="principal">
+        
+        {% for principal in principals %}
+        <div class="row mb-3">
+            <div class="col-lg-7">
+                <h3 class="text-right">Директор</h3>
+                <h4 class="text-right">{{ principal.name }}</h4>
+                <h6 class="text-right">{{ principal.phone_number }}</h6>
+                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                    Est unde, quidem accusamus minus quisquam iusto inventore eos? Quos harum 
+                    ipsam, reiciendis quo animi, facilis tenetur nulla necessitatibus ad voluptatem 
+                    mollitia eos incidunt sunt hic odit nostrum reiciendis dignissimos nisi accusamus, 
+                    animi ipsa aliquid ad omnis dicta. Fugit, porro praesentium?
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <img src="{% static 'images/principal.png' %}" class="w-100" alt="">
+            </div>   
+        </div>
+        {% endfor %}
+    </div>
+    <div class="head_teacher mb-4">
+        <details class="w-100 d-block" open>
+            <summary class="w-100 d-block">Завучи</summary>
+            <p>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Имя и Фамилия</th>
+                        <th scope="col">Номер телефона</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for head_teacher in head_teachers %}
+                        <tr>
+                            <th scope="row"></th>
+                            <td>{{ head_teacher.user.name }}</td>
+                            <td>{{ head_teacher.user.phone_number }}</td>
+                        </tr>
+                        {% endfor %}
+                      
+                    </tbody>
+                  </table>
+            </p>
+        </details>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3 mb-md-0">
+            <h4>Классы</h4>
+            {% for group in groups %}
+                <details class="w-100 d-block">
+                    <summary class="w-100 d-block">{{ group.title }}</summary>
+                    <p>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Имя и Фамилия</th>
+                                <th scope="col">Номер телефона</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in group.students.all %}
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td>{{ student.user.name }}</td>
+                                    <td>{{ student.user.phone_number }}</td>
+                                </tr>
+                                {% endfor %}
+                              
+                            </tbody>
+                          </table>
+                    </p>
+                </details>
+                        
+            {% endfor %}
+        </div>
+        <div class="col-md-6 mb-3 mb-md-0">
+            <h4>Учителя</h4>
+            {% for subject in subjects %}
+                <details class="w-100 d-block">
+                    <summary class="w-100 d-block">{{ subject.title }}</summary>
+                    <p>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Имя и Фамилия</th>
+                                <th scope="col">Номер телефона</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teachers %}
+                                    {% for tmp in teacher.subject.all %}
+                                      {% if tmp.id == subject.id %}
+                                        <tr>
+                                            <th scope="row"></th>
+                                            <td>{{ teacher.user.name }}</td>
+                                            <td>{{ teacher.user.phone_number }}</td>
+                                        </tr>
+                                      {% endif %}
+                                    {% endfor %}
+                                {% endfor %}    
+                            </tbody>
+                          </table>
+                    </p>
+                </details>
+                        
+            {% endfor %}
+        </div>
+    </div>
+    
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $('.accordion_btn').click(function(){
+        $('.accordion_content').toggleClass('active_accordion');
+    });
+</script>
+{% endblock content %}

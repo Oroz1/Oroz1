@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+{% block title %}
+Регистрация
+{% endblock title %}
+{% load filters %}
+{% block content %}
+<div class="page-header-overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <header class="entry-header">
+                    <h1 class="text-white text-center">Регистрация директора</h1>
+                    <h5 class="text-white text-center">Второй этап</h5>  
+                </header><!-- .entry-header -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .page-header-overlay -->
+</div><!-- .page-header -->
+
+<div class="bg-from">
+   <div class="container">
+    <div class="breadcrumbs">
+        <ul class="flex flex-wrap align-items-center p-0 m-0">
+            <li><a href="{% url 'main' %}"><i class="fa fa-home"></i> Главная</a></li>
+            <li><a href="{% url 'register' %}">Регистрация</a></li>
+            <li>Регистрация директора</li>
+        </ul>
+    </div><!-- .breadcrumbs -->
+</div>
+    <div class="login">
+        <div class="contact-form">
+            <div class="form">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="text-danger text-center list-style-none"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                <h4>Введите данные для регистрация</h4>
+                <form action="{% url 'register_second_stage' status_id=status_id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="path" value="{{ request.path }}">
+                    <p>{{ form.username }}</p>
+                    <p>{{ form.name }}</p>
+                    <p>{{ form.phone_number }}</p>
+                    <p>{{ form.password1 }}</p>
+                    <p>{{ form.password2 }}</p>
+                    <p><input type="number" name="key" placeholder="Кляч для регистрация" required></p>
+                    <input type="submit" value="Зарегистрироватся" class="d-block w-100">
+                </form>
+            </div>
+            
+        </div>
+        
+    </div> 
+</div>    
+
+{% endblock content %}

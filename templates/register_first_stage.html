@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block title %}
+Регистрация
+{% endblock title %}
+{% load filters %}
+{% block content %}
+<div class="page-header-overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <header class="entry-header">
+                    <h1 class="text-white text-center">Регистрация</h1>
+                    <h5 class="text-white text-center">Первый этап</h5>  
+                </header><!-- .entry-header -->
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .page-header-overlay -->
+</div><!-- .page-header -->
+<div class="container">
+    <div class="breadcrumbs">
+        <ul class="flex flex-wrap align-items-center p-0 m-0">
+            <li><a href="{% url 'main' %}"><i class="fa fa-home"></i> Главная</a></li>
+            <li>Регистрация</li>
+        </ul>
+    </div><!-- .breadcrumbs -->
+</div>
+<div class="container">
+    <h3>Выберите свою должность:</h3>
+    <div class="row">
+        {% for status in statuses %}
+          <div class="col-md-6 col-lg-3 col-12"><a href="{% url 'register_second_stage' status_id=status.id %}" class="status_btn">{{ status.title }}</a></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
